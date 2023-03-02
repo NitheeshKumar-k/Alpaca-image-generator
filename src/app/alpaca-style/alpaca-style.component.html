@@ -1,1 +1,4 @@
-<p>alpaca-style works!</p>
+<h3>Style</h3>
+<div>
+    <app-button *ngFor="let style of alpacaStyles" [name]="style" [isActive]="style === alpaca[selectedPart]" (click)="changeStyle(style)"></app-button>
+</div>

@@ -7,5 +7,5 @@ export interface Alpaca {
   ears: string;
   mouth: string;
   hair: string;
-  accessory: string;
+  accessories: string;
 }

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Alpaca } from './alpaca.model';
+import { BehaviorSubject, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,7 @@ export class AlpacaImageService {
   backgorundBasePath = 'assets/alpaca/backgrounds/';
   legBasePath = 'assets/alpaca/leg/';
   neckBasePath = 'assets/alpaca/neck/';
-  nosePath = 'assets/alpaca/nose.png';
+  noseBasePath = 'assets/alpaca/';
   eyesBasePath = 'assets/alpaca/eyes/';
   earsBasePath = 'assets/alpaca/ears/';
   mouthBasePath = 'assets/alpaca/mouth/';
@@ -18,30 +19,89 @@ export class AlpacaImageService {
   accessoryBasePath = 'assets/alpaca/accessories/';
 
   backgroundList = ['blue50', 'blue60', 'blue70', 'darkblue30', 'darkblue50', 'darkblue70', 'green50', 'green60', 'green70', 'grey40', 'grey70', 'grey80', 'red50', 'red60', 'red70', 'yellow50', 'yellow60', 'yellow70'];
-  legList = ['bubble-tea', 'cookie', 'default', 'game-console', 'tilt-backward', 'tilt-forward'];
-  neckList = ['bend-backward', 'bend-forward', 'default', 'thick'];
-  eyesList = ['angry', 'default', 'naughty', 'panda', 'smart', 'star'];
+  legList = ['default', 'bubble-tea', 'cookie', 'game-console', 'tilt-backward', 'tilt-forward'];
+  neckList = ['default', 'bend-backward', 'bend-forward', 'thick'];
+  eyesList = ['default', 'angry', 'naughty', 'panda', 'smart', 'star'];
   earsList = ['default', 'tilt-backward', 'tilt-forward'];
-  mouthList = ['astonished', 'default', 'eating', 'laugh', 'tongue'];
-  hairList = ['bang', 'curls', 'default', 'elegant', 'fancy', 'quiff', 'short'];
+  mouthList = ['default', 'astonished', 'eating', 'laugh', 'tongue'];
+  hairList = ['default', 'bang', 'curls', 'elegant', 'fancy', 'quiff', 'short'];
   accessoriesList = ['earings', 'flower', 'glasses', 'headphone'];
+  nose = 'nose'
 
+  alpacaParts = ['hair', 'ears', 'eyes', 'mouth', 'neck', 'leg', 'accessories', 'background'];
+  alpacaLists:AlpacaLists = {
+    accessories:this.accessoriesList,
+    background:this.backgroundList,
+    ears:this.earsList,
+    eyes:this.eyesList,
+    hair:this.hairList,
+    leg:this.legList,
+    mouth:this.mouthList,
+    neck:this.neckList
+  }
   extension = '.png';
+
+  selectedPart = 'hair';
+  selectedPartSubject = new BehaviorSubject(this.selectedPart);
+  alpacaSubject;
+
   constructor() {
+    this.randomAlpaca();
+    this.alpacaSubject = new BehaviorSubject(this.alpaca);
+  }
+
+  getAlpacaParts():string[] {
+    return this.alpacaParts;
+  }
+
+  getSelectedPart():string {
+    return this.selectedPart;
+  }
+
+  setSelectedPart(part:string) {
+    this.selectedPart = part;
+    this.selectedPartSubject.next(this.selectedPart);
+  }
+
+  getStyles():string[] {
+    return this.alpacaLists[this.selectedPart];
+  }
+
+  changeStyle(style:string) {
+    this.alpaca[this.selectedPart] = style;
+  }
+
+  randomAlpaca() {
     this.alpaca = {
-      background: 'assets/alpaca/backgrounds/blue50.png',
-      leg: 'assets/alpaca/leg/bubble-tea.png',
-      neck: 'assets/alpaca/neck/default.png',
-      nose: 'assets/alpaca/nose.png',
-      eyes: 'assets/alpaca/eyes/angry.png',
-      ears: 'assets/alpaca/ears/default.png',
-      mouth: 'assets/alpaca/mouth/astonished.png',
-      hair: 'assets/alpaca/hair/bang.png',
-      accessory: 'assets/alpaca/accessories/earings.png',
+      background: this.randomElement(this.backgroundList),
+      accessories: this.randomElement(this.accessoriesList),
+      ears: this.randomElement(this.earsList),
+      eyes: this.randomElement(this.eyesList),
+      hair: this.randomElement(this.hairList),
+      leg: this.randomElement(this.legList),
+      mouth: this.randomElement(this.mouthList),
+      neck: this.randomElement(this.neckList),
+      nose: this.nose
     }
   }
 
-  getStyles() {
-
+  randomAlpacaChange() {
+    this.randomAlpaca();
+    this.alpacaSubject.next(this.alpaca);
   }
+
+  randomElement(list:string[]):string {
+    return list[Math.floor(Math.random() * list.length)];
+  }
+}
+
+interface AlpacaLists {
+  hair:string[];
+  ears:string[];
+  eyes:string[];
+  mouth:string[];
+  neck:string[];
+  leg:string[];
+  accessories:string[];
+  background:string[];
 }

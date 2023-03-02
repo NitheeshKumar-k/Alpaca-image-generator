@@ -1,1 +1,4 @@
-<p>alpaca-parts works!</p>
+<h3>Accessorize the alpaca's</h3>
+<div>
+    <app-button *ngFor="let part of alpacaParts" [name]="part" [isActive]="part === selectedPart" (click)="setSelectedPart(part)"></app-button>
+</div>

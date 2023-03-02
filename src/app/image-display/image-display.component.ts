@@ -13,6 +13,8 @@ export class ImageDisplayComponent implements OnInit {
   constructor(private imageService: AlpacaImageService) { }
 
   ngOnInit() {
-    this.alpaca = this.imageService.alpaca;
+    this.imageService.alpacaSubject.subscribe(() => {
+      this.alpaca = this.imageService.alpaca;
+    });
   }
 }

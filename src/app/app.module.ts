@@ -8,6 +8,7 @@ import { AlpacaPartsComponent } from './alpaca-parts/alpaca-parts.component';
 import { AlpacaStyleComponent } from './alpaca-style/alpaca-style.component';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
+import { ButtonComponent } from './button/button.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { FooterComponent } from './footer/footer.component';
     AlpacaPartsComponent,
     AlpacaStyleComponent,
     HeaderComponent,
-    FooterComponent
+    FooterComponent,
+    ButtonComponent
   ],
   imports: [
     BrowserModule,

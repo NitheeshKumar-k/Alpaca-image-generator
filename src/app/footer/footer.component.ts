@@ -13,4 +13,8 @@ export class FooterComponent {
   randomAlpaca() {
     this.alpacaService.randomAlpacaChange();
   }
+
+  downloadImage() {
+    this.alpacaService.downloadImage();
+  }
 }

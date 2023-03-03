@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Alpaca } from './alpaca.model';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
+import mergeImages from 'merge-images';
 
 @Injectable({
   providedIn: 'root'
@@ -92,6 +93,26 @@ export class AlpacaImageService {
 
   randomElement(list:string[]):string {
     return list[Math.floor(Math.random() * list.length)];
+  }
+
+  downloadImage() {
+    mergeImages([
+      `${this.backgorundBasePath}${this.alpaca.background}${this.extension}`,
+      `${this.earsBasePath}${this.alpaca.ears}${this.extension}`,
+      `${this.legBasePath}${this.alpaca.leg}${this.extension}`,
+      `${this.neckBasePath}${this.alpaca.neck}${this.extension}`,
+      `${this.noseBasePath}${this.alpaca.nose}${this.extension}`,
+      `${this.mouthBasePath}${this.alpaca.mouth}${this.extension}`,
+      `${this.hairBasePath}${this.alpaca.hair}${this.extension}`,
+      `${this.eyesBasePath}${this.alpaca.eyes}${this.extension}`,
+      `${this.accessoryBasePath}${this.alpaca.accessories}${this.extension}`
+    ]).then((b64) => {
+        var a = document.createElement("a");
+        a.href = b64;
+        a.download = "Alpaca.png";
+        a.click();
+      });
+
   }
 }
 
